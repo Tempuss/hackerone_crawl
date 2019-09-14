@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 import datetime
 import time
@@ -101,6 +102,7 @@ def getReport(report_id):
             author = author.text
 
         reputation = soup.select_one('div.content-wrapper > div.spec-researcher-context > div.mini-profile--wide > div.spec-data > div.mini-profile__meta > span.mini-profile__meta-group > div.spec-reputation > div.profile-stats-amount > span')
+        print(reputation)
         if reputation is None:
             reputation = ""
         else:
@@ -313,6 +315,14 @@ def getReport(report_id):
 
 
         #except Exception, e:
+    except TimeoutException as e:
+        print("Crawl Fail:"+report_id)
+        fail = open("result/fail.log", 'a')
+        fail.write(report_id+",\n")
+        fail.write(str(e)+"\n")
+        fail.write(str(traceback.print_tb(e.__traceback__))+"\n")
+        fail.close()
+
     except Exception as e:
         print("Crawl Fail:"+report_id)
         fail = open("result/fail.log", 'a')
@@ -332,7 +342,7 @@ for url in json_data:
     fname = 'C:/dev/python/hackerone/result/success/'+report_id
     if not os.path.exists(fname):
         getReport(report_id)
-        time.sleep(1)
+        #time.sleep(1)
     #report_id="666557"
     count+=1
 
