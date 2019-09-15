@@ -1,3 +1,4 @@
 chromedriver.exe
 result/*.log
 result/success/*
+__pycache__

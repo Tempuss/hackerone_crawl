@@ -6,8 +6,8 @@ from elasticsearch import helpers
 from datetime import datetime 
 
 #ElasticSearch Setting
-es = Elasticsearch("http://172.30.1.6:9200") 
-index_name = "hackerone"
+es = Elasticsearch("http://192.168.0.19:9200") 
+index_name = "hackerone2"
 
 #fix field name
 int_list = ['report_id','reputation', 'rank', 'signal', 'signal_percent', 'impact', 'percent', 'bounty', 'severity_score']
@@ -20,14 +20,9 @@ file_list = os.listdir(file_directory)
 #Fix Specific Field Data
 def fixData(json_data):
     for val in json_data:
-        '''
-        if val == 'comment':
-            json_data.pop('comment')
-            for doc in json_data[val]:
-                doc['timestamp'] = doc.pop('date')
-        '''
-
         if val in int_list and json_data[val] is not '':
+
+            #Remove Specific String 
             if val == 'rank' or val == 'percent' or val == 'signal_percent':
                 if json_data[val] == '-':
                     json_data[val] = -1 
@@ -37,6 +32,7 @@ def fixData(json_data):
                     json_data[val] = json_data[val].replace("rd", "")
                     json_data[val] = json_data[val].replace("th", "")
 
+            #Remove Specific String From Score
             if val == 'severity_score':
                 if json_data[val] == '(---)':
                     json_data[val] = -1
@@ -62,8 +58,6 @@ def fixData(json_data):
                     json_data[val] = float(json_data[val])
                 except Exception as e:
                     print(json_data['report_id'])
-                    #print(val)
-                    #print(json_data[val])
                     print(str(e)+"\n")
                     print(str(traceback.print_tb(e.__traceback__))+"\n")
 
