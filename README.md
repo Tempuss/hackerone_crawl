@@ -19,11 +19,11 @@
       모든 기능이 구동 될때까지 기다렸다가 callback으로 작동하도록 수정)
    
 3. Insert To ElasticSearch
-  * AWS 엘라 쓰려다가 사용법 존나 어려워서 3시간 날림
+  * AWS 엘라 쓰려다가 사용법이 어려워서 3시간 날림
   * 로컬 엘라에다가 Insert!... 는 성공했으나 데이터 타입이랑 매핑이 달라서 Revert
   * 예전에 사용했던 6.3 버전이랑 7.3 버전이랑 버전이 달라서 삽질하느라 하루 날림
   * Index Mapping 하는 문법이 6.*랑 7.*랑 완전 달라서 삽질함...
-  * ElasticSearch에 Insert 성공 인줄 알았으나 날짜 데이터가 형식에 안맞는다고 지랄해서 실패
+  * ElasticSearch에 Insert 성공 인줄 알았으나 날짜 데이터가 형식에 안맞는다고 실패
   ```
   {"type":"date","format":"yyyy-MM-dd HH:mm:ss", "ignore_malformed": true}}
   ```
